@@ -5,9 +5,9 @@
  */
 package co.edu.unipiloto.student.servlet;
 
-import co.edu.unipiloto.student.Student;
+import co.edu.unipiloto.student.StudentCourse;
+import co.edu.unipiloto.student.StudentCoursePK;
 import co.edu.unipiloto.student.session.StudentCourseFacadeLocal;
-import co.edu.unipiloto.student.session.StudentFacadeLocal;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.ejb.EJB;
@@ -20,13 +20,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author jupbc
  */
-public class StudentServlet extends HttpServlet {
+public class GradeServlet extends HttpServlet {
 
     @EJB
-    private StudentFacadeLocal studentFacade;
-
-    
-    
+    private StudentCourseFacadeLocal studentCourseFacade;
+      
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,44 +36,46 @@ public class StudentServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
+        Integer crID = new Integer(0);
         Integer stID = new Integer(0);
-        Integer yearLVL = new Integer(0);
-        String id = request.getParameter("studentId");
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
-        String yearLevel = request.getParameter("yearLevel");
+        Integer gr = new Integer(0);
+        String studentId = request.getParameter("studentId");
+        String courseID = request.getParameter("courseId");
+        String grade = request.getParameter("grade");
 
-        if (id != null && !id.equals("")) {
-            stID = Integer.parseInt(id);
+        if (studentId != null && !studentId.equals("")) {
+            stID = Integer.parseInt(studentId);
         }
-        if (yearLevel != null && !yearLevel.equals("")) {
-            yearLVL = Integer.parseInt(yearLevel);
+        if (courseID != null && !courseID.equals("")) {
+            crID = Integer.parseInt(courseID);
+        }
+        if (grade != null && !grade.equals("")) {
+            gr = Integer.parseInt(grade);
         }
 
-        Student st = new Student();
+
+        StudentCoursePK scpk = new StudentCoursePK(crID, stID);
+        StudentCourse sc = new StudentCourse(scpk, gr);
+        
         String accion = request.getParameter("action");
-        st.setFirstname(firstName);
-        st.setLastname(lastName);
-        st.setStudentid(stID);
-        st.setYearlevel(yearLVL);
-
+        
         if (accion.equals("Add")) {
 
-            studentFacade.create(st);
-        } else if (accion.equals("Edit")) {
+            studentCourseFacade.create(sc);
+        }  else if (accion.equals("Edit")) {
 
-            studentFacade.edit(st);
+            studentCourseFacade.edit(sc);
         } else if (accion.equals("Delete")) {
 
-            studentFacade.remove(st);
+            studentCourseFacade.remove(sc);
         } else if (accion.equals("Search")) {
 
-            st = studentFacade.find(stID);
+            sc = studentCourseFacade.find(scpk);
         }
 
-        request.setAttribute("student", st);
-        request.setAttribute("allStudents", studentFacade.findAll());
+        request.setAttribute("grade", sc);
+        request.setAttribute("allGrades", studentCourseFacade.findAll());
         request.getRequestDispatcher("studentinfo.jsp").forward(request, response);
     }
 

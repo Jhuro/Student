@@ -17,19 +17,19 @@
         <form action="./StudentServlet" method="POST">
             <table>
                 <tr>
-                    <td>Student Id</td>
+                    <td>ID del estudiante</td>
                     <td><input type="text" name="studentId" value="${student.studentid}" /></td>
                 </tr>
                 <tr>
-                    <td>First Name</td>
+                    <td>Nombre</td>
                     <td><input type="text" name="firstName" value="${student.firstname}" /></td>
                 </tr>
                 <tr>
-                    <td>Last Name</td>
+                    <td>Apellido</td>
                     <td><input type="text" name="lastName" value="${student.lastname}" /></td>
                 </tr>
                 <tr>
-                    <td>Year Level</td>
+                    <td>Semestre</td>
                     <td><input type="text" name="yearLevel" value="${student.yearlevel}" /></td>
                 </tr>
                 <tr>
@@ -44,10 +44,10 @@
         </form>
         <br>
         <table border="1">
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Year Level</th>
+            <th>ID estudiante</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Semestre</th>
                 <c:forEach items="${allStudents}" var="stud">
                 <tr>
                     <td>${stud.studentid}</td>
@@ -57,5 +57,92 @@
                 </tr>
             </c:forEach> 
         </table>
+        <h1>Course Information</h1>
+        <form action="./CourseServlet" method="POST">
+            <table>
+                <tr>
+                    <td>ID del curso</td>
+                    <td><input type="text" name="courseId" value="${course.courseid}" /></td>
+                </tr>
+                <tr>
+                    <td>Nombre</td>
+                    <td><input type="text" name="courseName" value="${course.coursename}" /></td>
+                </tr>
+                <tr>
+                    <td>Creditos</td>
+                    <td><input type="text" name="courseCredits" value="${course.coursecredits}" /></td>
+                </tr>
+                <tr>
+                    <td>Semestre</td>
+                    <td><input type="text" name="yearLevel" value="${course.yearlevel}" /></td>
+                </tr>
+                <tr>
+                    <td>Numero de estudiantes</td>
+                    <td><input type="text" name="studentsNumber" value="${course.studentsnumber}" /></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" name="action" value="Add" />
+                        <input type="submit" name="action" value="Edit" />
+                        <input type="submit" name="action" value="Delete" />
+                        <input type="submit" name="action" value="Search" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <table border="1">
+            <th>ID del curso</th>
+            <th>Nombre</th>
+            <th>Creditos</th>
+            <th>Semestre</th>
+            <th>Numero de estudiantes</th>
+                <c:forEach items="${allCourses}" var="cour">
+                <tr>
+                    <td>${cour.courseid}</td>
+                    <td>${cour.coursename}</td>
+                    <td>${cour.coursecredits}</td>
+                    <td>${cour.yearlevel}</td>
+                    <td>${cour.studentsnumber}</td>
+                </tr>
+            </c:forEach> 
+        </table>
+                
+        <h1>Course Grades</h1>
+        <form action="./GradeServlet" method="POST">
+            <table>
+                <tr>
+                    <td>ID del curso</td>
+                    <td><input type="text" name="courseId" value="${grade.studentCoursePK.courseid}" /></td>
+                </tr>
+                <tr>
+                    <td>ID del estudiante</td>
+                    <td><input type="text" name="studentId" value="${grade.studentCoursePK.studentid}" /></td>
+                </tr>
+                <tr>
+                    <td>Nota</td>
+                    <td><input type="text" name="grade" value="${grade.grade}" /></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" name="action" value="Add" />
+                        <input type="submit" name="action" value="Edit" />
+                        <input type="submit" name="action" value="Delete" />
+                        <input type="submit" name="action" value="Search" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <table border="1">
+            <th>ID del curso</th>
+            <th>ID del estudiante</th>
+            <th>Nota</th>
+                <c:forEach items="${allGrades}" var="grad">
+                <tr>
+                    <td>${grad.studentCoursePK.courseid}</td>
+                    <td>${grad.studentCoursePK.studentid}</td>
+                    <td>${grad.grade}</td>
+                </tr>
+            </c:forEach> 
+        </table>        
     </body>
 </html>
